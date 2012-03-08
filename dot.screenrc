@@ -1,0 +1,65 @@
+escape ^Z^Z
+
+# no annoying audible bell, please
+#vbell on
+vbell off
+bell_msg "Bell in window %"
+
+startup_message off
+autodetach on
+
+defhstatus "[^En:^Et]"
+
+# Color table:
+# 0 Black . leave color unchanged
+# 1 Red b blue
+# 2 Green c cyan
+# 3 Brown / yellow d default color
+# 4 Blue g green b bold
+# 5 Purple k blacK B blinking
+# 6 Cyan m magenta d dim
+# 7 White r red r reverse
+# 8 unused/illegal w white s standout
+# 9 transparent y yellow u underline
+
+hardstatus on
+hardstatus alwayslastline
+hardstatus string "%{= wb}%-w%{=b bw}%n %t%{= wb}%+w %= [%l] %{=b wb}%y/%m/%d %{=b wm}[%02c]"
+
+bind s	# reset s key
+#bind ^G # reset vbell
+#bind g	# reset vbell
+
+bindkey -k kb stuff \010
+
+bind ^U	encoding utf8
+bind ^E encoding euc
+
+# for screen division
+#bind -c REGION 2 split
+#bind -c REGION 1 only
+#bind -c REGION 0 remove
+#bind -c REGION o focus
+#bind -c REGION ^ resize
+#bind x command -c REGION
+
+# http://www.negeta.com/~maya/tdiary/?date=20080229#p02
+# 256 colors
+defbce on
+term xterm-256color
+#term xterm
+#term xterm-color
+#termcapinfo xterm* 'Co#256:pa#32767:AB=\E[48;5;%dm:AF=\E[38;5;%dm:'
+#termcapinfo kterm* 'Co#256:pa#32767:AB=\E[48;5;%dm:AF=\E[38;5;%dm:'
+
+# http://paranoid.dip.jp/kaworu/2008-03-06-1.html
+# Resize Window
+#termcapinfo xterm* 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
+#termcapinfo kterm* 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
+
+termcapinfo xterm-256color 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
+
+defscrollback 10000
+
+
+
