@@ -151,6 +151,9 @@ alias -g T='| tail'
 alias -g W='| wc'
 alias -g G='| grep'
 
+# for emacs & emacsclient
+alias E='emacsclient -t'
+alias kill-emacs="emacsclient -e '(kill-emacs)'"
 
 ## terminal configuration
 #
@@ -283,12 +286,28 @@ export EDITOR=vim
 export LESS='-R'
 
 
+
+# intel compiler
+INTEL_COMPVARS_SH=/opt/intel/bin/compilervars.sh
+if [ -f ${INTEL_COMPVARS_SH} ]; then
+    source ${INTEL_COMPVARS_SH} intel64
+fi
+if [ x${LD_LIBRARY_PATH} != x ]; then
+    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${HOME}/local/intel/lib
+else
+    export LD_LIBRARY_PATH=${HOME}/local/intel/lib
+fi
+
+
 ## load user .zshrc configuration file
 #
 [ -f ${HOME}/.zshrc.mine ] && source ${HOME}/.zshrc.mine
 
+# ProteinDF
+export PDF_HOME=$HOME/local/intel/ProteinDF
+export PATH=$PATH:${PDF_HOME}/bin
 
-export PDF_HOME=$HOME/local/ProteinDF
+
 export PYTHONPATH=${HOME}/work/pyQCLO:${HOME}/local/lib/python2.7/site-packages
-export PATH=$PATH:$HOME/local/bin:$PDF_HOME/bin:/sw/bin
+export PATH=$PATH:$HOME/local/bin:$PDF_HOME/bin
 
