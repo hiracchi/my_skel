@@ -1,3 +1,7 @@
+(require 'cl)
+(fset 'yes-or-no-p 'y-or-n-p)
+(setq inhibit-startup-screen t)
+
 (when (> emacs-major-version 23)
   (defvar user-emacs-directory "~/.emacs.d"))
 
@@ -5,10 +9,10 @@
   (let (path)
     (dolist (path paths paths)
       (let ((default-directory
-             (expand-file-name (concat user-emacs-directory path))))
-      (add-to-list 'load-path default-directory)
-      (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
-        (normal-top-level-add-subdirs-to-load-path))))))
+              (expand-file-name (concat user-emacs-directory path))))
+        (add-to-list 'load-path default-directory)
+        (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
+            (normal-top-level-add-subdirs-to-load-path))))))
 (add-to-load-path "elisp" "conf" "public_repos")
 
 ;; auto-install ================================================================
@@ -59,7 +63,10 @@
 (cua-mode t)
 (setq cua-enable-cua-keys nil)
 
-;; language ===================================================================
+;; environment ================================================================
+(add-to-list 'exec-path "/usr/local/bin")
+(add-to-list 'exec-path "~/bin")
+
 (set-language-environment "Japanese")
 (prefer-coding-system 'utf-8)
 
@@ -114,9 +121,13 @@
              '(:eval (count-lines-and-chars)))
 
 ;; color-theme
-(when (require 'color-theme nil t)
-  (color-theme-initialize)
-  (color-theme-xp))
+;(when (require 'color-theme nil t)
+;  (color-theme-initialize)
+;)
+(require 'color-theme-ir-black)
+;(color-theme-irblack)
+;(load-file "~/.emacs.d/elisp/color-theme-ir-black.el")
+;(color-theme-ir-black)
 
 ;; hilight current line
 (defface my-hl-line-face
@@ -135,6 +146,12 @@
 (setq show-paren-style 'expression)
 (set-face-background 'show-paren-match-face nil)
 (set-face-underline-p 'show-paren-match-face "yellow")
+
+;; key-bind ====================================================================
+(keyboard-translate ?\C-h ?\C-?)
+(global-set-key (kbd "C-m") 'newline-and-indent)
+(define-key global-map (kbd "C-c l") 'toggle-truncate-lines)
+(define-key global-map (kbd "C-t") 'other-window)
 
 ;; programing ==================================================================
 
