@@ -1,23 +1,39 @@
-syntax on
+set shortmess+=I
 
-set term=ansi
-set encoding=utf-8
-set fileencoding=utf-8 
-set fileencodings=iso-2022-jp,sjis,euc-jp,utf-8
+" tab
+"set expandtab tabstop=4 shiftwidth=4 softtabstop=4
 
-"set number
+" for putty
+"set mouse=a
+" for screen
+"set ttymouse=xterm2
 
+set notitle
+set nonumber
+set showcmd
 set laststatus=2
-set statusline=%F%m%r%h%w\ [%{&ff}]\ [%Y]\ [%04l,\ %04v][%p%%]
+set showmatch
+set matchtime=2
+set hlsearch
+set wildmenu
 
-"入力モード時、ステータスラインのカラーを変更
-augroup InsertHook
-autocmd!
-autocmd InsertEnter * highlight StatusLine guifg=#ccdc90 guibg=#2E4340
-autocmd InsertLeave * highlight StatusLine guifg=#2E4340 guibg=#ccdc90
-augroup END
+set encoding=utf-8
+set termencoding=utf-8
+set fileencoding=utf-8
+set fileencodings=utf-8
+"set fileencodings=ucs-bom,euc-jp,cp932,iso-2022-jp
+"set fileencodings+=,ucs-2le,ucs-2,utf-8
 
-"全角スペースを視覚化
-highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=#666666
-au BufNewFile,BufRead * match ZenkakuSpace /　/ 
+
+" syntax
+if &t_Co > 1
+    syntax enable
+endif
+
+" color theme
+"colorscheme torte
+
+" status line
+
+" set statusline=%<%f¥ %m%r%h%w%y%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%4v¥ %l/%L
 
