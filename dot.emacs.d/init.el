@@ -118,9 +118,9 @@
   ;(color-theme-ramangalahy)
   ;(color-theme-blue-sea)
 )
-(require 'color-theme-ir-black)
-;(load "color-theme-ir-black")
-(color-theme-ir-black)
+(require 'color-theme-solarized)
+(color-theme-solarized-dark)
+;(require 'color-theme-ir-black)
 ;(color-theme-ir-black)
 ;; font
 (when (eq window-system 'ns)
