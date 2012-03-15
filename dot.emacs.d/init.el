@@ -44,6 +44,16 @@
 ;; window switch / default "C-t" is transpose-chars
 (define-key global-map (kbd "C-t") 'other-window)
 
+(setq kill-whole-line t)
+(global-set-key "\C-h" 'delete-backward-char);
+(global-set-key "\C-xh" 'help-command);
+(global-set-key "\C-x\C-i" 'indent-region)
+(global-set-key "\C-m" 'newline-and-indent)
+(global-set-key "\C-j" 'newline)
+(global-set-key "\C-x;" 'comment-region)
+(global-set-key "\C-x:" 'uncomment-region)
+(global-set-key "\C-cc" 'compile)
+
 
 ;; environment variable ========================================================
 (add-to-list 'exec-path "/usr/local/bin")
@@ -176,15 +186,18 @@
      (:background "LightGoldenrodYellow" t))
     (t (:bold t)))
   "hl-line's my face")
-(setq hl-line-face 'my-hl-line-face)
+;(setq hl-line-face 'my-hl-line-face)
+;(setq hl-line-face 'underline)
 (global-hl-line-mode t)
 ;; paren-mode
 (setq show-paren-delay 0)
 (show-paren-mode t)
 (setq show-paren-style 'expression)
 (set-face-background 'show-paren-match-face nil)
-(set-face-underline-p 'show-paren-match-face "yellow")
-
+;(set-face-underline-p 'show-paren-match-face "yellow")
+(set-face-attribute 'show-paren-match-face nil
+                    :background nil :foreground nil
+                    :weight 'extra-bold)
 
 ;; backup ======================================================================
 ;;; P102-103 バックアップとオートセーブの設定
@@ -229,8 +242,11 @@
 (when (require 'auto-install nil t)
   (setq auto-install-directory "~/.emacs.d/elisp/")
   (auto-install-update-emacswiki-package-name t)
-  (auto-install-compatibility-setup))
-;;(install-elisp "http://www.emacswiki.org/emacs/download/redo+.el")
+  (auto-install-compatibility-setup)
+  (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+  )
+
+;;(install-elisp "http://www.emacswiki.org/emacs/download/redBo+.el")
 (when (require 'redo+ nil t)
   ;; C-' にリドゥを割り当てる
   (global-set-key (kbd "C-'") 'redo)
@@ -239,36 +255,46 @@
 
 
 ;; anything ====================================================================
-(when (require 'anything-startup nil t)
-  (setq 
-   anything-idle-delay 0.3
-   anything-input-idle-delay 0.2
-   anything-candidate-number-limit 100
-   anything-quick-update t
-   anything-enable-shortcut 'alphabet)
+(require 'anything-startup)
+(global-set-key (kbd "C-;") 'anything)
+(global-set-key (kbd "C-:") 'anything-for-files)
 
-  (when (require 'anything-config nil t)
-    (setq anything-su-or-sudo "sudo"))
+;(when (require 'anything nil t)
+;  (setq 
+;   anything-idle-delay 0.3
+;   anything-input-idle-delay 0.2
+;   anything-candidate-number-limit 100
+;   anything-quick-update t
+;   anything-enable-shortcut 'alphabet)
+;
+;  (when (require 'anything-config nil t)
+;    (setq anything-su-or-sudo "sudo"))
+;
+;  (require 'anything-match-plugin nil t)
+;
+;  (when (and (executable-find "cmigemo")
+;	     (require 'migemo nil t))
+;    (require 'anything-migemo nil t))
+;
+;  (when (require 'anything-complete nil t)
+;    (anything-lisp-complete-symbol-set-timer 150))
+;
+;  (require 'anything-show-completion nil t)
+;
+;  (when (require 'auto-install nil t)
+;    (require 'anything-auto-install nil t))
+;
+;  (when (require 'descbinds-anything nil t)
+;    (descbinds-anything-install))
+;)
 
-  (require 'anything-match-plugin nil t)
+(require 'split-root)
+(defun anything-display-function--split-root (buf)
+  (let ((percent 40.0))
+    (set-window-buffer (split-root-window (truncate (* (frame-height) (/ percent 100.0)))) buf)))
+(setq anything-display-function 'anything-display-function--split-root)
 
-  (when (and (executable-find "cmigemo")
-	     (require 'migemo nil t))
-    (require 'anything-migemo nil t))
-
-  (when (require 'anything-complete nil t)
-    (anything-lisp-complete-symbol-set-timer 150))
-
-  (require 'anything-show-completion nil t)
-
-  (when (require 'auto-install nil t)
-    (require 'anything-auto-install nil t))
-
-  (when (require 'descbinds-anything nil t)
-    (descbinds-anything-install))
-)
-
-;; auto-complete ==============================================================
+;; auto-complete ===============================================================
 (when (require 'auto-complete-config nil t)
   (add-to-list 'ac-dictionary-directories "~/.emacs.d/elisp/ac-dict")
   (define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
@@ -276,9 +302,43 @@
 )
 
 
-;; common user access =========================================================
+;; common user access ==========================================================
 (cua-mode t)
 (setq cua-enable-cua-keys nil)
+
+
+;; buffer ======================================================================
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'post-forward-angle-brankets)
+(setq uniquify-ignore-buffers-re "*[^*]+*")
+
+(iswitchb-mode t)
+(setq read-buffer-function 'iswitchb-read-buffer)
+(setq iswitchb-regexp nil)
+(setq iswitchb-prompt-newbuffer nil)
+
+(setq recentf-max-saved-items 500)
+(setq recentf-exclude '("/TAGS$" "/var/tmp/"))
+(require 'recentf-ext)
+
+(require 'tempbuf)
+(add-hook 'find-file-hooks 'turn-on-tempbuf-mode)
+(add-hook 'dired-mode-hook 'turn-on-tempbuf-mode)
+
+
+;; find / replace ==============================================================
+(require 'moccur-edit)
+(setq moccur-split-word t)
+
+(require 'igrep)
+(igrep-define lgrep (igrep-use-zgrep nil)(igrep-regex-option "-n -0u8"))
+(igrep-find-define lgrep (igrep-use-zgrep nil)(igrep-regex-option "-n -0u8"))
+
+(require 'grep-a-lot)
+(grep-a-lot-setup-keys)
+(grep-a-lot-advise igrep)
+
+(require 'grep-edit)
 
 ;; programing ==================================================================
 ;; file extention
@@ -329,6 +389,37 @@
              (setq compile-command "LANG=C make -k -j 3")
              (which-function-mode 1)
              ))
+
+;; fold block
+(require 'hideshow)
+(require 'fold-dwim)
+
+
+;; show function name
+(which-func-mode 1)
+(setq which-func-modes t)
+(delete (assoc 'which-func-mode mode-line-format) mode-line-format)
+(setq-default header-line=format '(which-func-mode ("" which-func-format)))
+
+;; to pop up compilation buffers at the bottom
+(require 'compile)
+(defvar compilation-window nil
+  "The window opened for displaying a compilation buffer.")
+(setq compilation-window-height 10)
+
+;; for python
+;(require 'python-mode)
+;(add-hook 'python-mode-hook
+;     '(lambda ()
+;        (turn-on-font-lock)
+;        (setq py-indent-offset 4)
+;        (setq tab-width py-indent-offset)
+;        (setq indent-tabs-mode nil)
+;        ))
+
+;; for YAML
+(require 'yaml-mode)
+
 
 ;; git
 (when (executable-find "git")
