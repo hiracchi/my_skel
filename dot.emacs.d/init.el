@@ -38,7 +38,8 @@
 ;; assign backspace to C-h
 (keyboard-translate ?\C-h ?\C-?)
 ;; assign C-m to newline-and-indent
-(global-set-key (kbd "C-m") 'newline-and-indent)
+;;(global-set-key (kbd "C-m") 'newline-and-indent)
+(global-set-key (kbd "C-j") 'newline)
 ;; 
 (define-key global-map (kbd "C-c l") 'toggle-truncate-lines)
 ;; window switch / default "C-t" is transpose-chars
@@ -48,8 +49,7 @@
 (global-set-key "\C-h" 'delete-backward-char);
 (global-set-key "\C-xh" 'help-command);
 (global-set-key "\C-x\C-i" 'indent-region)
-(global-set-key "\C-m" 'newline-and-indent)
-(global-set-key "\C-j" 'newline)
+
 (global-set-key "\C-x;" 'comment-region)
 (global-set-key "\C-x:" 'uncomment-region)
 (global-set-key "\C-cc" 'compile)
