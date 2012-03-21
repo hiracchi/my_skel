@@ -303,11 +303,6 @@ fi
 #
 [ -f ${HOME}/.zshrc.mine ] && source ${HOME}/.zshrc.mine
 
-# ProteinDF
-export PDF_HOME=$HOME/local/intel/ProteinDF
-export PATH=$PATH:${PDF_HOME}/bin
-
-
 export PYTHONPATH=${HOME}/work/pyQCLO:${HOME}/local/lib/python2.7/site-packages
 export PATH=$PATH:$HOME/local/bin:$PDF_HOME/bin
 
