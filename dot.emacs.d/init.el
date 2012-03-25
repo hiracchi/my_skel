@@ -31,7 +31,12 @@
 ;; not for CocoaEmacs
 (unless (eq window-system 'ns)
   ;; disable menu-bar
-  (menu-bar-mode 0))
+  (menu-bar-mode 0)
+  ;; emacs server
+  (require 'server)
+  (unless (server-running-p)
+    (server-start))
+)
 
 
 ;; key-bind ====================================================================
@@ -129,7 +134,8 @@
   ;(color-theme-blue-sea)
 )
 (require 'color-theme-solarized)
-(color-theme-solarized-dark)
+;(color-theme-solarized-dark)
+(color-theme-solarized-light)
 ;(require 'color-theme-ir-black)
 ;(color-theme-ir-black)
 ;; font
@@ -299,7 +305,10 @@
   (add-to-list 'ac-dictionary-directories "~/.emacs.d/elisp/ac-dict")
   (define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
   (ac-config-default)
-)
+  (setq ac-auto-start nil)
+  ;(setq ac-auto-start 4)
+  (ac-set-trigger-key "TAB")
+  )
 
 
 ;; common user access ==========================================================
