@@ -134,7 +134,8 @@
   ;(color-theme-blue-sea)
 )
 (require 'color-theme-solarized)
-(color-theme-solarized-dark)
+;(color-theme-solarized-dark)
+(color-theme-solarized-light)
 ;(require 'color-theme-ir-black)
 ;(color-theme-ir-black)
 ;; font
