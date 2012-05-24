@@ -5,7 +5,7 @@
 
 
 ;; emacs setting and management ================================================
-(when (> emacs-major-version 23)
+(when (< emacs-major-version 23)
   (defvar user-emacs-directory "~/.emacs.d"))
 
 (defun add-to-load-path (&rest paths)
@@ -86,11 +86,11 @@
 ;; show file size
 (size-indication-mode t)
 ;; time, day and date
-(setq display-time-day-and-date t)
-(setq display-time-24ht-format t)
+;;(setq display-time-day-and-date t)
+;;(setq display-time-24ht-format t)
 (display-time-mode t)
 ;; battery
-(display-battery-mode t)
+;;(display-battery-mode t)
 ;; the number of lines and chars in the region
 ;; http://d.hatena.ne.jp/sonota88/20110224/1298557375
 (defun count-lines-and-chars ()
@@ -107,7 +107,6 @@
 (setq frame-title-format "%f")
 ;; line number
 ;; (global-linum-mode t)
-
 
 ;; indent ======================================================================
 ;; TAB
@@ -128,14 +127,14 @@
 ;; region background
 ;; (set-face-background 'region "darkgreen")
 ;; color-theme (http://download.savannah.gnu.org/releases/color-theme/color-theme-6.6.0.tar.gz)
-(when (require 'color-theme nil t)
-  (color-theme-initialize)
+;(when (require 'color-theme nil t)
+  ;(color-theme-initialize)
   ;(color-theme-ramangalahy)
   ;(color-theme-blue-sea)
-)
+;)
 (require 'color-theme-solarized)
-;(color-theme-solarized-dark)
-(color-theme-solarized-light)
+(color-theme-solarized-dark)
+;(color-theme-solarized-light)
 ;(require 'color-theme-ir-black)
 ;(color-theme-ir-black)
 ;; font
@@ -180,7 +179,6 @@
         '((".*Consolas.*" . 1.0)
           (".*メイリオ.*" . 1.15)
           ("-cdac$" . 1.3))))
-
 
 ;; high-light ==================================================================
 (defface my-hl-line-face
@@ -318,8 +316,9 @@
 
 ;; buffer ======================================================================
 (require 'uniquify)
-(setq uniquify-buffer-name-style 'post-forward-angle-brankets)
+(setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 (setq uniquify-ignore-buffers-re "*[^*]+*")
+(setq uniquify-min-dir-content 1)
 
 (iswitchb-mode t)
 (setq read-buffer-function 'iswitchb-read-buffer)
@@ -330,24 +329,25 @@
 (setq recentf-exclude '("/TAGS$" "/var/tmp/"))
 (require 'recentf-ext)
 
-(require 'tempbuf)
-(add-hook 'find-file-hooks 'turn-on-tempbuf-mode)
-(add-hook 'dired-mode-hook 'turn-on-tempbuf-mode)
+;; 不要なバッファを自動で削除
+;(require 'tempbuf)
+;(add-hook 'find-file-hooks 'turn-on-tempbuf-mode)
+;(add-hook 'dired-mode-hook 'turn-on-tempbuf-mode)
 
 
 ;; find / replace ==============================================================
-(require 'moccur-edit)
-(setq moccur-split-word t)
+;(require 'moccur-edit)
+;(setq moccur-split-word t)
 
-(require 'igrep)
-(igrep-define lgrep (igrep-use-zgrep nil)(igrep-regex-option "-n -0u8"))
-(igrep-find-define lgrep (igrep-use-zgrep nil)(igrep-regex-option "-n -0u8"))
+;(require 'igrep)
+;(igrep-define lgrep (igrep-use-zgrep nil)(igrep-regex-option "-n -0u8"))
+;(igrep-find-define lgrep (igrep-use-zgrep nil)(igrep-regex-option "-n -0u8"))
 
-(require 'grep-a-lot)
-(grep-a-lot-setup-keys)
-(grep-a-lot-advise igrep)
+;(require 'grep-a-lot)
+;(grep-a-lot-setup-keys)
+;(grep-a-lot-advise igrep)
 
-(require 'grep-edit)
+;(require 'grep-edit)
 
 ;; programing ==================================================================
 ;; file extention
@@ -417,14 +417,32 @@
 (setq compilation-window-height 10)
 
 ;; for python
-;(require 'python-mode)
+(add-hook 'python-mode-hook
+          (lambda ()
+            (turn-on-font-lock)
+            (define-key python-mode-map "\C-m" 'newline-and-indent)
+            (setq-default indent-tabs-mode nil)
+            (setq-default tab-width 4)
+            ))
 ;(add-hook 'python-mode-hook
-;     '(lambda ()
-;        (turn-on-font-lock)
-;        (setq py-indent-offset 4)
-;        (setq tab-width py-indent-offset)
-;        (setq indent-tabs-mode nil)
-;        ))
+;          (lambda ()
+;            (turn-on-font-lock)
+;            (define-key python-mode-map "\"" 'electric-pair)
+;            (define-key python-mode-map "\'" 'electric-pair)
+;            (define-key python-mode-map "(" 'electric-pair)
+;            (define-key python-mode-map "[" 'electric-pair)
+;            (define-key python-mode-map "{" 'electric-pair)
+;            (define-key python-mode-map "\C-m" 'newline-and-indent)
+;            (setq-default indent-tabs-mode nil)
+;            (setq-default tab-width 4)
+;            ))
+(defun electric-pair ()
+  "Insert character pair without sournding spaces"
+  (interactive)
+  (let (parens-require-spaces)
+    (insert-pair)))
+
+
 
 ;; for YAML
 (require 'yaml-mode)
@@ -435,4 +453,5 @@
   (require 'egg nil t))
 
 ;(line-number-mode t)
+
 

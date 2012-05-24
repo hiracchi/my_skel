@@ -204,12 +204,25 @@ xterm|xterm-color|xterm-256color|kterm|kterm-color)
 
 ##################################################################
 # ssh
-function ssh_screen() {
-    eval server=\${$#}
-    screen -t $server ssh "$@"
-}
-if [ x$TERM = xscreen ]; then
-    alias ssh=ssh_screen
+#function ssh_screen() {
+#    eval server=\${$#}
+#    screen -t $server ssh "$@"
+#}
+#if [ x$TERM = xscreen ]; then
+#    alias ssh=ssh_screen
+#fi
+
+AGENT_DIR=${HOME}/.tmp/ssh-agent
+AGENT="${AGENT_DIR}/`hostname`"
+if [ ! -d ${AGENT_DIR} ]; then
+    mkdir -p ${AGENT_DIR}
+fi
+if [ -S "${AGENT}" ]; then
+    export SSH_AUTH_SOCK=${AGENT}
+elif [ ! -S "$SSH_AUTH_SOCK" ]; then
+    echo "no ssh-agent"
+elif [ ! -L "$SSH_AUTH_SOCK" ]; then
+    ln -snf "$SSH_AUTH_SOCK" ${AGENT} && export SSH_AUTH_SOCK=${AGENT}
 fi
 
 
@@ -285,24 +298,8 @@ export GREP_OPTIONS='--color=auto'
 export EDITOR=vim
 export LESS='-R'
 
-
-
-# intel compiler
-INTEL_COMPVARS_SH=/opt/intel/bin/compilervars.sh
-if [ -f ${INTEL_COMPVARS_SH} ]; then
-    source ${INTEL_COMPVARS_SH} intel64
-fi
-if [ x${LD_LIBRARY_PATH} != x ]; then
-    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${HOME}/local/intel/lib
-else
-    export LD_LIBRARY_PATH=${HOME}/local/intel/lib
-fi
-
-
 ## load user .zshrc configuration file
 #
 [ -f ${HOME}/.zshrc.mine ] && source ${HOME}/.zshrc.mine
 
-export PYTHONPATH=${HOME}/work/pyQCLO:${HOME}/local/lib/python2.7/site-packages
-export PATH=$PATH:$HOME/local/bin:$PDF_HOME/bin
 
