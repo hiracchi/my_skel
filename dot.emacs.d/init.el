@@ -127,16 +127,18 @@
 ;; region background
 ;; (set-face-background 'region "darkgreen")
 ;; color-theme (http://download.savannah.gnu.org/releases/color-theme/color-theme-6.6.0.tar.gz)
-;(when (require 'color-theme nil t)
-  ;(color-theme-initialize)
+(when (require 'color-theme nil t)
+  (color-theme-initialize)
+  
   ;(color-theme-ramangalahy)
   ;(color-theme-blue-sea)
-;)
-(require 'color-theme-solarized)
-(color-theme-solarized-dark)
-;(color-theme-solarized-light)
-;(require 'color-theme-ir-black)
-;(color-theme-ir-black)
+  
+  ;(require 'color-theme-solarized)
+  ;(color-theme-solarized-dark)
+  ;(color-theme-solarized-light)
+  (when (require 'color-theme-ir-black nil t)
+    (color-theme-ir-black))
+)
 ;; font
 (when (eq window-system 'ns)
   ;; asciiフォントをMenloに
@@ -312,6 +314,7 @@
 ;; common user access ==========================================================
 (cua-mode t)
 (setq cua-enable-cua-keys nil)
+;(setq cua-rectangle-mark-key (kbd "C-S-return"))
 
 
 ;; buffer ======================================================================
