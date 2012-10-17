@@ -132,12 +132,13 @@
   
   ;(color-theme-ramangalahy)
   ;(color-theme-blue-sea)
+  (color-theme-charcoal-black)
   
   ;(require 'color-theme-solarized)
   ;(color-theme-solarized-dark)
   ;(color-theme-solarized-light)
-  (when (require 'color-theme-ir-black nil t)
-    (color-theme-ir-black))
+  ;(when (require 'color-theme-ir-black nil t)
+  ;  (color-theme-ir-black))
 )
 ;; font
 (when (eq window-system 'ns)

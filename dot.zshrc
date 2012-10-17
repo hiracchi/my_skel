@@ -298,6 +298,8 @@ export GREP_OPTIONS='--color=auto'
 export EDITOR=vim
 export LESS='-R'
 
+export PATH=$PATH:$HOME/local/bin
+
 ## load user .zshrc configuration file
 #
 [ -f ${HOME}/.zshrc.mine ] && source ${HOME}/.zshrc.mine
