@@ -341,6 +341,7 @@
 ;; common user access ==========================================================
 (cua-mode t)
 (setq cua-enable-cua-keys nil)
+;(setq cua-rectangle-mark-key (kbd "C-S-return"))
 
 
 ;; buffer ======================================================================
