@@ -1,59 +1,31 @@
-# users generic .zshrc file for zsh(1)
+# Path to your oh-my-zsh configuration.
+ZSH=$HOME/.oh-my-zsh
 
-## Environment variable configuration
-#
-# LANG
-#
-export LANG=ja_JP.UTF-8
-case ${UID} in
-0)
-    LANG=C
-    ;;
-esac
+# Set name of the theme to load.
+# Look in ~/.oh-my-zsh/themes/
+# Optionally, if you set this to "random", it'll load a random theme each
+# time that oh-my-zsh is loaded.
+#ZSH_THEME="robbyrussell"
+ZSH_THEME="mh"
 
-## Default shell configuration
-#
-# set prompt
-#
-autoload colors
-colors
-setopt prompt_subst
-case ${UID} in
-    0)
-    PROMPT="%{${fg[cyan]}%}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') %B%{${fg[red]}%}%/#%{${reset_color}%}%b "
-    PROMPT2="%B%{${fg[red]}%}%_#%{${reset_color}%}%b "
-    RPROMPT="%{[33m%}[%~]%{[m%}"
-    SPROMPT="%B%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%}%b "
-    ;;
-    *)
-    #PROMPT="%{${fg[green]}%}%/%%%{${reset_color}%} "
-    PROMPT="%{${fg[green]}%}%#%{${reset_color}%} "
-    PROMPT2="%{${fg[green]}%}%_%%%{${reset_color}%} "
-    #RPROMPT="%{[33m%}[%~]%{[m%}"
-    RPROMPT="%{${fg[yellow]}%}[%~]%{${reset_color}%}"
-    SPROMPT="%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%} "
-    [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] &&
-        #PROMPT="%{${fg[cyan]}%}$(echo ${HOST%%.*}):${PROMPT}"
-        PROMPT="%{${fg[gray]}%}%n%{${fg[cyan]}%}@%m:${PROMPT}"
-    ;;
-esac
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# Set to this to use case-sensitive completion
+# CASE_SENSITIVE="true"
 
-# auto change directory
-#
-setopt auto_cd
+# Comment this out to disable weekly auto-update checks
+# DISABLE_AUTO_UPDATE="true"
 
-# auto directory pushd that you can get dirs list by cd -[tab]
-#
-setopt auto_pushd
+# Uncomment following line if you want to disable colors in ls
+# DISABLE_LS_COLORS="true"
 
-# command correct edition before each completion attempt
-#
-setopt correct
+# Uncomment following line if you want to disable autosetting terminal title.
+# DISABLE_AUTO_TITLE="true"
 
-# compacked complete list display
-#
-setopt list_packed
+# Uncomment following line if you want red dots to be displayed while waiting for completion
+# COMPLETION_WAITING_DOTS="true"
 
 # completion cursor
 zstyle ':completion:*:default' menu select=1
@@ -304,4 +276,11 @@ export PATH=$PATH:$HOME/local/bin
 #
 [ -f ${HOME}/.zshrc.mine ] && source ${HOME}/.zshrc.mine
 
+# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+plugins=(git)
 
+source $ZSH/oh-my-zsh.sh
+
+# Customize to your needs...
