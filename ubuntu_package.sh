@@ -8,6 +8,7 @@ libcppunit-dev electric-fence ddd \
 google-perftools libgoogle-perftools-dev \
 git subversion doxygen graphviz \
 vim emacs vnc4server \
+python-dev python-setuptools \
 python-sphinx python-numpy python-matplotlib \
 gnuplot pymol octave maxima \
 emacs-goodies-el emacs-goodies-extra-el \
