@@ -105,8 +105,8 @@ setopt share_history        # share command history data
 ## Completion configuration
 #
 fpath=(${HOME}/.zsh/functions/Completion ${fpath})
-autoload -U compinit
-compinit
+autoload -Uz compinit
+compinit -d ~/.zcompdump_${HOST}
 
 
 ## zsh editor
