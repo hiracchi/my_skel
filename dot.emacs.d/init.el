@@ -38,6 +38,16 @@
     (server-start))
 )
 
+;; window mode =================================================================
+;; frame size
+(setq initial-frame-alist
+      (append (list
+               '(width . 80)
+               '(height . 40)
+               )
+              initial-frame-alist))
+(setq default-frame-alist initial-frame-alist)
+
 
 ;; key-bind ====================================================================
 ;; assign backspace to C-h
@@ -129,42 +139,56 @@
 ;; color-theme (http://download.savannah.gnu.org/releases/color-theme/color-theme-6.6.0.tar.gz)
 (when (require 'color-theme nil t)
   (color-theme-initialize)
-  
+
   ;(color-theme-ramangalahy)
   ;(color-theme-blue-sea)
-  
-  ;(require 'color-theme-solarized)
-  ;(color-theme-solarized-dark)
-  ;(color-theme-solarized-light)
-  (when (require 'color-theme-ir-black nil t)
-    (color-theme-ir-black))
+  (color-theme-charcoal-black)
+
+  ;(when (require 'color-theme-solarized nil t)
+  ;  (color-theme-solarized-dark)
+  ;  ;(color-theme-solarized-light)
+  ;  )
+  ;(when (require 'color-theme-ir-black nil t)
+  ;  (color-theme-ir-black)
+  ;)
 )
+
 ;; font
-(when (eq window-system 'ns)
-  ;; asciiフォントをMenloに
-  (set-face-attribute 'default nil
-                      :family "Menlo"
-                      :height 120)
-  ;; 日本語フォントをヒラギノ明朝 Proに
-  (set-fontset-font
-   nil 'japanese-jisx0208
-   ;; 英語名の場合
-   ;; (font-spec :family "Hiragino Mincho Pro"))
-   (font-spec :family "ヒラギノ明朝 Pro"))
-  ;; ひらがなとカタカナをモトヤシーダに
-  ;; U+3000-303F	CJKの記号および句読点
-  ;; U+3040-309F	ひらがな
-  ;; U+30A0-30FF	カタカナ
-  (set-fontset-font
-   nil '(#x3040 . #x30ff)
-   (font-spec :family "NfMotoyaCedar"))
-  ;; フォントの横幅を調節する
-  (setq face-font-rescale-alist
-        '((".*Menlo.*" . 1.0)
-          (".*Hiragino_Mincho_Pro.*" . 1.2)
-          (".*nfmotoyacedar-bold.*" . 1.2)
-          (".*nfmotoyacedar-medium.*" . 1.2)
-          ("-cdac$" . 1.3))))
+;(when (eq window-system 'ns)
+;  (when (x-list-fonts "Ricty")
+;    (let* ((size 14)
+;           (asciifont "Ricty")
+;           (jpfont "Ricty")
+;           (h (* size 10))
+;           (fontspec)
+;           (jp-fontspec))
+;      (set-face-attribute 'default nil :family asciifont :height h)
+;      (setq fontspec (font-spec :family asciifont))
+;      (setq jp-fontspec (font-spec :family jpfont))
+;      (set-fontset-font nil 'japanese-jisx0208 jp-fontspec)
+;      (set-fontset-font nil 'japanese-jisx0212 jp-fontspec)
+;      (set-fontset-font nil 'japanese-jisx0213-1 jp-fontspec)
+;      (set-fontset-font nil 'japanese-jisx0213-2 jp-fontspec)
+;      (set-fontset-font nil '(#x0080 . #x024F) fontspec)
+;      (set-fontset-font nil '(#x0370 . #x03FF) fontspec)))
+;
+;  ;; フォントの横幅を調節する
+;  ;(setq face-font-rescale-alist
+;  ;      '((".*Menlo.*" . 1.0)
+;  ;        (".*Hiragino_Mincho_Pro.*" . 1.2)
+;  ;        (".*nfmotoyacedar-bold.*" . 1.2)
+;  ;        (".*nfmotoyacedar-medium.*" . 1.2)
+;  ;        ("-cdac$" . 1.3)))
+;)
+
+;; Ricty {{{2 (http://save.sys.t.u-tokyo.ac.jp/~yusa/fonts/ricty.html)
+(set-face-attribute 'default nil
+                   :family "Ricty"
+                   :height 140)
+(set-fontset-font
+ nil 'japanese-jisx0208
+ (font-spec :family "Ricty"))
+
 
 (when (eq system-type 'windows-nt)
   ;; asciiフォントをConsolasに
@@ -194,11 +218,14 @@
   "hl-line's my face")
 ;(setq hl-line-face 'my-hl-line-face)
 ;(setq hl-line-face 'underline)
-(global-hl-line-mode t)
+;(global-hl-line-mode t)
 ;; paren-mode
 (setq show-paren-delay 0)
 (show-paren-mode t)
-(setq show-paren-style 'expression)
+;; 色が付く部分
+(setq show-paren-style 'parenthesis) ; かっこに色が付く
+;(setq show-paren-style 'expression)  ; かっこ内に色が付く
+;(setq show-paren-style 'mixed)       ; その両方
 (set-face-background 'show-paren-match-face nil)
 ;(set-face-underline-p 'show-paren-match-face "yellow")
 (set-face-attribute 'show-paren-match-face nil
