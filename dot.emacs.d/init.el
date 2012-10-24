@@ -118,6 +118,8 @@
 ;; line number
 ;; (global-linum-mode t)
 
+
+
 ;; indent ======================================================================
 ;; TAB
 (setq-default tab-width 4)
@@ -132,6 +134,7 @@
 (add-hook 'c-mode-common-hook
           '(lambda ()
              (c-set-style "bsd")))
+
 
 ;; display, decolation =========================================================
 ;; region background
@@ -152,6 +155,7 @@
   ;  (color-theme-ir-black)
   ;)
 )
+
 
 ;; font
 ;(when (eq window-system 'ns)
@@ -181,30 +185,18 @@
 ;  ;        ("-cdac$" . 1.3)))
 ;)
 
+
 ;; Ricty {{{2 (http://save.sys.t.u-tokyo.ac.jp/~yusa/fonts/ricty.html)
-(set-face-attribute 'default nil
-                   :family "Ricty"
-                   :height 140)
-(set-fontset-font
- nil 'japanese-jisx0208
- (font-spec :family "Ricty"))
-
-
 (when (eq system-type 'windows-nt)
-  ;; asciiフォントをConsolasに
   (set-face-attribute 'default nil
-                      :family "Consolas"
-                      :height 120)
+                      :family "Ricty"
+                      :height 140)
   ;; 日本語フォントをメイリオに
   (set-fontset-font
    nil
    'japanese-jisx0208
-   (font-spec :family "メイリオ"))
-  ;; フォントの横幅を調節する
-  (setq face-font-rescale-alist
-        '((".*Consolas.*" . 1.0)
-          (".*メイリオ.*" . 1.15)
-          ("-cdac$" . 1.3))))
+   (font-spec :family "Ricty"))
+)
 
 ;; high-light ==================================================================
 (defface my-hl-line-face
