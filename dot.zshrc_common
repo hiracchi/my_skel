@@ -1,0 +1,27 @@
+export GREP_COLOR='01;33'
+export GREP_OPTIONS='--color=auto'
+export EDITOR=vim
+export LESS='-R'
+
+# for ssh-agent ================================================================
+AGENT_DIR=${HOME}/.tmp/ssh-agent
+AGENT="${AGENT_DIR}/`hostname`"
+if [ ! -d ${AGENT_DIR} ]; then
+    mkdir -p ${AGENT_DIR}
+fi
+if [ -S "${AGENT}" ]; then
+    export SSH_AUTH_SOCK=${AGENT}
+elif [ ! -S "$SSH_AUTH_SOCK" ]; then
+    echo "no ssh-agent"
+elif [ ! -L "$SSH_AUTH_SOCK" ]; then
+    ln -snf "$SSH_AUTH_SOCK" ${AGENT} && export SSH_AUTH_SOCK=${AGENT}
+fi
+
+# for emacs & emacsclient ======================================================
+alias E='emacsclient -t'
+alias kill-emacs="emacsclient -e '(kill-emacs)'"
+
+if [ x${EMACS} = xt ]; then
+    unsetopt zle
+fi
+
