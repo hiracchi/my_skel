@@ -21,6 +21,17 @@
 
 
 ;; for machine environment =====================================================
+;; detect envrioentments
+(defvar run-linux
+  (equal system-type 'gnu/linux))
+(defvar run-darwine
+  (equal system-type 'darwine))
+
+(defvar run-cli
+  (equal window-system nil))
+(defvar run-cocoa
+  (equal window-system 'ns))
+
 ;; not for terminal
 (when window-system
   ;; disable tool-bar
@@ -156,47 +167,39 @@
   ;)
 )
 
+;(line-number-mode t)
 
 ;; font
-;(when (eq window-system 'ns)
-;  (when (x-list-fonts "Ricty")
-;    (let* ((size 14)
-;           (asciifont "Ricty")
-;           (jpfont "Ricty")
-;           (h (* size 10))
-;           (fontspec)
-;           (jp-fontspec))
-;      (set-face-attribute 'default nil :family asciifont :height h)
-;      (setq fontspec (font-spec :family asciifont))
-;      (setq jp-fontspec (font-spec :family jpfont))
-;      (set-fontset-font nil 'japanese-jisx0208 jp-fontspec)
-;      (set-fontset-font nil 'japanese-jisx0212 jp-fontspec)
-;      (set-fontset-font nil 'japanese-jisx0213-1 jp-fontspec)
-;      (set-fontset-font nil 'japanese-jisx0213-2 jp-fontspec)
-;      (set-fontset-font nil '(#x0080 . #x024F) fontspec)
-;      (set-fontset-font nil '(#x0370 . #x03FF) fontspec)))
-;
-;  ;; フォントの横幅を調節する
-;  ;(setq face-font-rescale-alist
-;  ;      '((".*Menlo.*" . 1.0)
-;  ;        (".*Hiragino_Mincho_Pro.*" . 1.2)
-;  ;        (".*nfmotoyacedar-bold.*" . 1.2)
-;  ;        (".*nfmotoyacedar-medium.*" . 1.2)
-;  ;        ("-cdac$" . 1.3)))
-;)
+;; font settings on mac
+;; copied form http://d.hatena.ne.jp/setoryohei/20110117/1295336454
+(if run-cocoa
+    (let* ((size 14)
+           (asciifont "Ricty") ; ASCII fonts
+           (jpfont "Ricty") ; Japanese fonts
+           (h (* size 10))
+           (fontspec (font-spec :family asciifont))
+           (jp-fontspec (font-spec :family jpfont)))
+      (set-face-attribute 'default nil :family asciifont :height h)
+      ;; (set-face-bold-p 'bold nil)
+      (set-fontset-font t 'japanese-jisx0213.2004-1 jp-fontspec)
+      (set-fontset-font t 'japanese-jisx0213-2 jp-fontspec)
+      (set-fontset-font t 'japanese-jisx0213-1 jp-fontspec)
+      (set-fontset-font t 'japanese-jisx0212 jp-fontspec)
+      (set-fontset-font t 'japanese-jisx0208 jp-fontspec)
+      (set-fontset-font t 'katakana-jisx0201 jp-fontspec)
+      (set-fontset-font t '(#x0080 . #x024F) fontspec) 
+      (set-fontset-font t '(#x0370 . #x03FF) fontspec)))
 
-
-;; Ricty {{{2 (http://save.sys.t.u-tokyo.ac.jp/~yusa/fonts/ricty.html)
-(when (eq system-type 'windows-nt)
-  (set-face-attribute 'default nil
-                      :family "Ricty"
-                      :height 140)
-  ;; 日本語フォントをメイリオに
-  (set-fontset-font
-   nil
-   'japanese-jisx0208
-   (font-spec :family "Ricty"))
+(if run-cocoa
+    (dolist (elt '(("^-apple-hiragino.*" . 1.2)
+                   (".*osaka-bold.*" . 1.2)
+                   (".*osaka-medium.*" . 1.2)
+                   (".*courier-bold-.*-mac-roman" . 1.0)
+                   (".*monaco cy-bold-.*-mac-cyrillic" . 0.9)
+                   (".*monaco-bold-.*-mac-roman" . 0.9)))
+      (add-to-list 'face-font-rescale-alist elt))
 )
+
 
 ;; high-light ==================================================================
 (defface my-hl-line-face
@@ -474,6 +477,51 @@
 (when (executable-find "git")
   (require 'egg nil t))
 
-;(line-number-mode t)
 
+;; ReST ========================================================================
+;; Emacs起動時にrst.elを読み込み
+(require 'rst)
+;; 拡張子の*.rst, *.restのファイルをrst-modeで開く
+(setq auto-mode-alist
+      (append '(("\\.rst$" . rst-mode)
+                ("\\.rest$" . rst-mode)) auto-mode-alist))
+;; 背景が黒い場合はこうしないと見出しが見づらい
+(setq frame-background-mode 'dark)
+;; 全部スペースでインデントしましょう
+(add-hook 'rst-mode-hook '(lambda() (setq indent-tabs-mode nil)))
+
+;; sphinx ======================================================================
+;; sphinx-numfig
+(defun rst-bk-numfigs (Fig Caption)
+  "Inserts numbered firgure in sphinx, using numfig extension:
+https://bitbucket.org/arjones6/sphinx-numfig"
+  (interactive
+   (list
+    (file-name-nondirectory (read-file-name "Image file: " (if (file-exists-p "_static")
+                                                               "_static"
+                                                             default-directory) ))
+    (read-string "Caption: ") ))
+  (let (FigStripped FigStrippedLowerCase)
+    (setq FigStripped
+          (replace-regexp-in-string "[^a-zA-Z]" ""
+                                    (file-name-sans-extension Fig)))
+    (with-temp-buffer
+      (insert FigStripped)
+      (downcase-region (point-min) (point-max))
+      (setq FigStrippedLowerCase (buffer-substring-no-properties (point-min) (point-max))))
+    (insert (format "\
+:num:`Fig. #%s`
+
+.. _%s:
+
+.. figure:: _static/%s
+   :width: 50%s
+   :alt: %s
+   :align: center
+
+   %s
+" FigStrippedLowerCase FigStrippedLowerCase Fig "%" Fig Caption)))
+  (search-backward-regexp "`")
+  (forward-char 1)
+)
 
