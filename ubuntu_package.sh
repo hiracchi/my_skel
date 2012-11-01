@@ -13,11 +13,6 @@ python-sphinx python-numpy python-matplotlib msgpack-python pep8 \
 gnuplot pymol octave maxima \
 emacs-goodies-el emacs-goodies-extra-el \
 magit git-flow tig \
-a2ps \
-texlive texlive-math-extra ptex-bin \
-xdvik-ja dvipsk-ja dvipdfmx cmap-adobe-japan1 \
-otf-ipafont texmaker okumura-clsfiles \
-jmpost jbibtex-bin mendexk \
 "
 sudo aptitude -y install ${PACKAGES}
 
@@ -25,5 +20,5 @@ sudo aptitude -y install ${PACKAGES}
 sudo aptitude remove overlay-scrollbar liboverlay-scrollbar-0.2-0 liboverlay-scrollbar3-0.2-0
 
 # for latex
-sudo jisftconfig add
+#sudo jisftconfig add
 
