@@ -49,6 +49,9 @@
     (server-start))
 )
 
+;; ビープ音・画面フラッシュなし ================================================
+(setq ring-bell-function 'ignore)
+
 ;; window mode =================================================================
 ;; frame size
 (setq initial-frame-alist
