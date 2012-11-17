@@ -35,4 +35,5 @@ endif
 
 " status line
 " set statusline=%<%f¥ %m%r%h%w%y%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%4v¥ %l/%L
+:set statusline=%f%m%=%3l,%3c
 
