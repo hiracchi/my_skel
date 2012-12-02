@@ -11,8 +11,9 @@ fi
 ln -sf ${SRC_DIR}/dot.zshenv ${HOME}/.zshenv
 ln -sf ${SRC_DIR}/dot.zshrc ${HOME}/.zshrc
 ln -sf ${SRC_DIR}/dot.zshrc_common ${HOME}/.zshrc.common
+ln -sf ${SRC_DIR}/dot.zlogin ${HOME}/.zlogin
 ln -sf ${SRC_DIR}/dot.emacs.d ${HOME}/.emacs.d
 ln -sf ${SRC_DIR}/dot.vimrc ${HOME}/.vimrc
 ln -sf ${SRC_DIR}/dot.screenrc ${HOME}/.screenrc
-
+ln -sf ${SRC_DIR}/dot.fd2rc ${HOME}/.fd2rc
 
