@@ -224,8 +224,8 @@ alias df="df -h"
 alias su="su -l"
 
 # emacs
-export EDITOR="emacsclient"
-alias e='emacsclient'
+#export EDITOR="emacsclient"
+#alias e='emacsclient'
 
 # emacs on macosx
 if [ -f "/Applications/Emacs.app/Contents/MacOS/Emacs" ]; then
