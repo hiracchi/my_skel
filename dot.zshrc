@@ -194,6 +194,26 @@ function print_known_hosts () {
 _cache_hosts=($( print_known_hosts ))
 
 
+# for ssh-agent ================================================================
+AGENT_DIR=${HOME}/.tmp/ssh-agent
+AGENT="${AGENT_DIR}/`hostname`"
+if [ ! -d ${AGENT_DIR} ]; then
+    mkdir -p ${AGENT_DIR}
+fi
+
+if [ -S "${SSH_AUTH_SOCK}" ]; then
+    if [ ${SSH_AUTH_SOCK} != ${AGENT} ]; then
+        ln -snf ${SSH_AUTH_SOCK} ${AGENT} && export SSH_AUTH_SOCK=${AGENT}
+    fi
+else
+    if [ -S "${AGENT}" ]; then
+        export SSH_AUTH_SOCK=${AGENT}
+    else
+        echo "no ssh-agent"
+    fi
+fi
+
+
 # 3秒以上かかったコマンドは統計情報を表示する  =================================
 REPORTTIME=3
 
