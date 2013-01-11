@@ -49,12 +49,17 @@ AGENT="${AGENT_DIR}/`hostname`"
 if [ ! -d ${AGENT_DIR} ]; then
     mkdir -p ${AGENT_DIR}
 fi
-if [ -S "${AGENT}" ]; then
-    export SSH_AUTH_SOCK=${AGENT}
-elif [ ! -S "$SSH_AUTH_SOCK" ]; then
-    echo "no ssh-agent"
-elif [ ! -L "$SSH_AUTH_SOCK" ]; then
-    ln -snf "$SSH_AUTH_SOCK" ${AGENT} && export SSH_AUTH_SOCK=${AGENT}
+
+if [ -S "${SSH_AUTH_SOCK}" ]; then
+    if [ ${SSH_AUTH_SOCK} != ${AGENT} ]; then
+        ln -snf ${SSH_AUTH_SOCK} ${AGENT} && export SSH_AUTH_SOCK=${AGENT}
+    fi
+else
+    if [ -S "${AGENT}" ]; then
+        export SSH_AUTH_SOCK=${AGENT}
+    else
+        echo "no ssh-agent"
+    fi
 fi
 
 # for emacs & emacsclient ======================================================
