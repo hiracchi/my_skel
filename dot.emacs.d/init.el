@@ -83,6 +83,7 @@
 (global-set-key "\C-x:" 'uncomment-region)
 (global-set-key "\C-cc" 'compile)
 
+(global-set-key "\C-x\C-g" 'goto-line)
 
 ;; environment variable ========================================================
 (add-to-list 'exec-path "/usr/local/bin")
@@ -289,35 +290,36 @@
 (require 'anything-startup)
 (global-set-key (kbd "C-;") 'anything)
 (global-set-key (kbd "C-:") 'anything-for-files)
+(global-set-key (kbd "\C-x b") 'anything)
 
-;(when (require 'anything nil t)
-;  (setq 
-;   anything-idle-delay 0.3
-;   anything-input-idle-delay 0.2
-;   anything-candidate-number-limit 100
-;   anything-quick-update t
-;   anything-enable-shortcut 'alphabet)
-;
-;  (when (require 'anything-config nil t)
-;    (setq anything-su-or-sudo "sudo"))
-;
-;  (require 'anything-match-plugin nil t)
-;
-;  (when (and (executable-find "cmigemo")
-;	     (require 'migemo nil t))
-;    (require 'anything-migemo nil t))
-;
-;  (when (require 'anything-complete nil t)
-;    (anything-lisp-complete-symbol-set-timer 150))
-;
-;  (require 'anything-show-completion nil t)
-;
-;  (when (require 'auto-install nil t)
-;    (require 'anything-auto-install nil t))
-;
-;  (when (require 'descbinds-anything nil t)
-;    (descbinds-anything-install))
-;)
+(when (require 'anything nil t)
+  (setq 
+   anything-idle-delay 0.3
+   anything-input-idle-delay 0.2
+   anything-candidate-number-limit 100
+   anything-quick-update t
+   anything-enable-shortcut 'alphabet)
+
+  (when (require 'anything-config nil t)
+    (setq anything-su-or-sudo "sudo"))
+
+  (require 'anything-match-plugin nil t)
+
+  (when (and (executable-find "cmigemo")
+	     (require 'migemo nil t))
+    (require 'anything-migemo nil t))
+
+  (when (require 'anything-complete nil t)
+    (anything-lisp-complete-symbol-set-timer 150))
+
+  (require 'anything-show-completion nil t)
+
+  (when (require 'auto-install nil t)
+    (require 'anything-auto-install nil t))
+
+  (when (require 'descbinds-anything nil t)
+    (descbinds-anything-install))
+)
 
 (require 'split-root)
 (defun anything-display-function--split-root (buf)
@@ -340,6 +342,17 @@
 (cua-mode t)
 (setq cua-enable-cua-keys nil)
 ;(setq cua-rectangle-mark-key (kbd "C-S-return"))
+
+
+;; popwin ======================================================================
+(when (require 'popwin nil t)
+  (setq display-buffer-function 'popwin:display-buffer)
+  (setq anything-samewindow nil)
+  (push '("*anything*" :height 20) popwin:special-display-config)
+  (push '(dired-mode :position top) popwin:special-display-config)
+  (push '("*Completions*" :height 0.4) popwin:special-display-config)
+  (push '("*compilation*" :height 0.4 :noselect t :stick t) popwin:special-display-config)
+)
 
 
 ;; buffer ======================================================================
