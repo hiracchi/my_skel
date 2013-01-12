@@ -271,7 +271,7 @@ alias df="df -h"
 alias su="su -l"
 
 # emacs
-export EDITOR="emacsclient"
+#export EDITOR="emacsclient"
 alias e="emacsclient -n"
 
 kill-emacsclint()
