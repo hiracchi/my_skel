@@ -6,6 +6,11 @@ echo $SRC_DIR
 ln -snf ${SRC_DIR}/dot.zshenv ${HOME}/.zshenv
 
 ln -snf ${SRC_DIR}/zsh ${HOME}/.zsh
+if [ -d ${HOME}/.zsh/zaw ]; then
+    (cd ${HOME}/.zsh/zaw; git pull)
+else 
+    (cd ${HOME}/.zsh; git clone git://github.com/nakamuray/zaw.git)
+fi
 
 ln -snf ${SRC_DIR}/dot.zshrc ${HOME}/.zshrc
 ln -snf ${SRC_DIR}/dot.zshrc ${HOME}/.zshrc
