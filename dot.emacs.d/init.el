@@ -156,19 +156,14 @@
 ;; (set-face-background 'region "darkgreen")
 ;; color-theme (http://download.savannah.gnu.org/releases/color-theme/color-theme-6.6.0.tar.gz)
 (when (require 'color-theme nil t)
-  (color-theme-initialize)
-
-  ;(color-theme-ramangalahy)
-  ;(color-theme-blue-sea)
-  (color-theme-charcoal-black)
-
-  ;(when (require 'color-theme-solarized nil t)
-  ;  (color-theme-solarized-dark)
-  ;  ;(color-theme-solarized-light)
-  ;  )
-  ;(when (require 'color-theme-ir-black nil t)
-  ;  (color-theme-ir-black)
-  ;)
+;  (color-theme-initialize)
+;
+;  (when (require 'color-theme-solarized nil t)
+;     (color-theme-solarized-dark)
+;     )
+  (when (require 'color-theme-ir-black nil t)
+    (color-theme-ir-black)
+  )
 )
 
 ;(line-number-mode t)
