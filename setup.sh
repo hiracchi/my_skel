@@ -3,12 +3,10 @@
 SRC_DIR=$(cd $(dirname $0); pwd)
 echo $SRC_DIR
 
-# oh-my-zsh
-if [ ! -d ${HOME}/.oh-my-zsh ]; then
-    git clone git://github.com/robbyrussell/oh-my-zsh.git ${HOME}/.oh-my-zsh
-fi
-
 ln -snf ${SRC_DIR}/dot.zshenv ${HOME}/.zshenv
+
+ln -snf ${SRC_DIR}/zsh ${HOME}/.zsh
+
 ln -snf ${SRC_DIR}/dot.zshrc ${HOME}/.zshrc
 ln -snf ${SRC_DIR}/dot.zshrc ${HOME}/.zshrc
 ln -snf ${SRC_DIR}/dot.zlogin ${HOME}/.zlogin

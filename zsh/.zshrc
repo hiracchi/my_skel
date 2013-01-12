@@ -38,7 +38,6 @@ esac
 
 
 # Show branch name in Zsh's right prompt
- 
 autoload -Uz VCS_INFO_get_data_git; VCS_INFO_get_data_git 2> /dev/null
  
 function rprompt-git-current-branch {
@@ -67,7 +66,10 @@ function rprompt-git-current-branch {
     
     echo "$color$name$action%f%b "
 }
-RPROMPT='[`rprompt-git-current-branch`%~]'
+RPROMPT='[`rprompt-git-current-branch`%(5~,%-2~/.../%2~,%~)]'
+
+# git-flow ====================================================================
+source ${HOME}/.zsh/git_flow_completion.zsh
 
 
 # auto change directory ========================================================
@@ -121,8 +123,26 @@ bindkey "\e[Z" reverse-menu-complete
 HISTFILE=${HOME}/.zsh_history
 HISTSIZE=50000
 SAVEHIST=50000
-setopt hist_ignore_dups     # ignore duplication command history list
 setopt share_history        # share command history data
+# ヒストリに追加されるコマンド行が古いものと同じなら古いものを削除
+setopt hist_ignore_all_dups
+# スペースで始まるコマンド行はヒストリリストから削除
+setopt hist_ignore_space
+# ヒストリを呼び出してから実行する間に一旦編集可能
+setopt hist_verify
+# 余分な空白は詰めて記録
+setopt hist_reduce_blanks  
+# 古いコマンドと同じものは無視 
+setopt hist_save_no_dups
+# historyコマンドは履歴に登録しない
+setopt hist_no_store
+# 補完時にヒストリを自動的に展開         
+setopt hist_expand
+# 履歴をインクリメンタルに追加
+setopt inc_append_history
+# インクリメンタルからの検索
+bindkey "^R" history-incremental-search-backward
+bindkey "^S" history-incremental-search-forward
 
 
 # Completion configuration =====================================================
@@ -131,11 +151,14 @@ autoload -U compinit
 compinit
 
 
-# zsh editor ===================================================================
+# zsh editor ==================================================================
 autoload zed
 
+# zaw =========================================================================
+source ${HOME}/.zsh/zaw/zaw.zsh
+bindkey '^h' zaw-history^h
 
-# Prediction configuration =====================================================
+# Prediction configuration ====================================================
 #autoload predict-on
 #predict-off
 
@@ -261,6 +284,7 @@ if [ -f "/Applications/Emacs.app/Contents/MacOS/Emacs" ]; then
     alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs -nw'
 fi
 
+export EDITOR=vi
 
 ## load user .zshrc configuration file =========================================
 #
