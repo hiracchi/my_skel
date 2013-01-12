@@ -67,7 +67,7 @@ function rprompt-git-current-branch {
     
     echo "$color$name$action%f%b "
 }
-RPROMPT='[`rprompt-git-current-branch`%~]'
+RPROMPT='[`rprompt-git-current-branch`%(5~,%-2~/.../%2~,%~)]'
 
 
 # auto change directory ========================================================
