@@ -68,8 +68,14 @@ function rprompt-git-current-branch {
 }
 RPROMPT='[`rprompt-git-current-branch`%(5~,%-2~/.../%2~,%~)]'
 
+
+# git-completions =============================================================
+fpath=(${HOME}/.zsh/zsh-completions/src $fpath)
+rm -f ~/.zcompdump; compinit
+
+
 # git-flow ====================================================================
-source ${HOME}/.zsh/git_flow_completion.zsh
+source ${HOME}/.zsh/git-flow-completion/git-flow-completion.zsh
 
 
 # auto change directory ========================================================
