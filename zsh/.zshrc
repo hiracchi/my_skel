@@ -233,7 +233,6 @@ rm -f ~/.zcompdump; compinit
 
 
 # git-flow ====================================================================
-<<<<<<< HEAD
 source ${HOME}/.zsh/git-flow-completion/git-flow-completion.zsh
 
 
@@ -244,7 +243,6 @@ setopt auto_cd
 # auto directory pushd that you can get dirs list by cd -[tab] =================
 setopt auto_pushd
 
-=======
 #source ${HOME}/.zsh/git_flow_completion.zsh
 
 # command correct edition before each completion attempt =======================
