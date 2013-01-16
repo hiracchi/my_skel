@@ -10,10 +10,86 @@ case ${UID} in
 esac
 
 
-# Default shell configuration
-# set prompt
+# Keybind configuration ========================================================
+# emacs like keybind (e.x. Ctrl-a gets to line head and Ctrl-e gets
+#   to end) and something additions
+## Emacsキーバインドを使う。
+bindkey -e
+bindkey "^[[1~" beginning-of-line # Home gets to line head
+bindkey "^[[4~" end-of-line # End gets to line end
+bindkey "^[[3~" delete-char # Del
+
+# ディレクトリ移動 =============================================================
+## ディレクトリ名だけでcdする。
+setopt auto_cd
+## cdで移動してもpushdと同じようにディレクトリスタックに追加する。
+setopt auto_pushd
+## カレントディレクトリ中に指定されたディレクトリが見つからなかった場合に
+## 移動先を検索するリスト。
+cdpath=(~)
+## ディレクトリが変わったらディレクトリスタックを表示。
+chpwd_functions=($chpwd_functions dirs)
+
+# Command history configuration ================================================
+## ヒストリを保存するファイル
+HISTFILE=~/.zsh_history
+## メモリ上のヒストリ数。
+## 大きな数を指定してすべてのヒストリを保存するようにしている。
+HISTSIZE=10000000
+## 保存するヒストリ数
+SAVEHIST=$HISTSIZE
+## ヒストリファイルにコマンドラインだけではなく実行時刻と実行時間も保存する。
+setopt extended_history
+# ヒストリに追加されるコマンド行が古いものと同じなら古いものを削除
+setopt hist_ignore_all_dups
+## スペースで始まるコマンドラインはヒストリに追加しない。
+setopt hist_ignore_space
+## すぐにヒストリファイルに追記する。
+setopt inc_append_history
+## zshプロセス間でヒストリを共有する。
+setopt share_history
+## C-sでのヒストリ検索が潰されてしまうため、出力停止・開始用にC-s/C-qを使わない。
+setopt no_flow_control
+## ヒストリを呼び出してから実行する間に一旦編集可能
+setopt hist_verify
+## 余分な空白は詰めて記録
+setopt hist_reduce_blanks  
+## 古いコマンドと同じものは無視 
+setopt hist_save_no_dups
+## historyコマンドは履歴に登録しない
+setopt hist_no_store
+## 補完時にヒストリを自動的に展開         
+setopt hist_expand
+## インクリメンタルからの検索
+bindkey "^R" history-incremental-search-backward
+bindkey "^S" history-incremental-search-forward
+
+# set prompt ===================================================================
 autoload colors
 colors
+
+# 256色生成用便利関数 
+### red: 0-5
+### green: 0-5
+### blue: 0-5
+color256()
+{
+    local red=$1; shift
+    local green=$2; shift
+    local blue=$3; shift
+
+    echo -n $[$red * 36 + $green * 6 + $blue + 16]
+}
+
+fg256()
+{
+    echo -n $'\e[38;5;'$(color256 "$@")"m"
+}
+
+bg256()
+{
+    echo -n $'\e[48;5;'$(color256 "$@")"m"
+}
 
 # プロンプトが表示されるたびにプロンプト文字列を評価、置換する
 setopt prompt_subst
@@ -36,7 +112,89 @@ case ${UID} in
         ;;
 esac
 
+# 補完 =========================================================================
+## 初期化
+autoload -U compinit
+compinit
 
+fpath=(${HOME}/.zsh/functions/Completion ${fpath})
+
+## 補完方法毎にグループ化する。
+### 補完方法の表示方法
+###   %B...%b: 「...」を太字にする。
+###   %d: 補完方法のラベル
+zstyle ':completion:*' format '%B%d%b'
+zstyle ':completion:*' group-name ''
+
+## 補完侯補をメニューから選択する。
+### select=2: 補完候補を一覧から選択する。
+###           ただし、補完候補が2つ以上なければすぐに補完する。
+zstyle ':completion:*:default' menu select=2
+
+## 補完候補に色を付ける。
+### "": 空文字列はデフォルト値を使うという意味。
+zstyle ':completion:*:default' list-colors ""
+
+## 補完候補がなければより曖昧に候補を探す。
+### m:{a-z}={A-Z}: 小文字を大文字に変えたものでも補完する。
+### r:|[._-]=*: 「.」「_」「-」の前にワイルドカード「*」があるものとして補完する。
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z} r:|[._-]=*'
+
+## 補完方法の設定。指定した順番に実行する。
+### _oldlist 前回の補完結果を再利用する。
+### _complete: 補完する。
+### _match: globを展開しないで候補の一覧から補完する。
+### _history: ヒストリのコマンドも補完候補とする。
+### _ignored: 補完候補にださないと指定したものも補完候補とする。
+### _approximate: 似ている補完候補も補完候補とする。
+### _prefix: カーソル以降を無視してカーソル位置までで補完する。
+zstyle ':completion:*' completer \
+    _oldlist _complete _match _history _ignored _approximate _prefix
+
+## 補完候補をキャッシュする。
+zstyle ':completion:*' use-cache yes
+## 詳細な情報を使う。
+zstyle ':completion:*' verbose yes
+## sudo時にはsudo用のパスも使う。
+zstyle ':completion:sudo:*' environ PATH="$SUDO_PATH:$PATH"
+
+## カーソル位置で補完する。
+setopt complete_in_word
+## globを展開しないで候補の一覧から補完する。
+setopt glob_complete
+## 補完時にヒストリを自動的に展開する。
+setopt hist_expand
+## 補完候補がないときなどにビープ音を鳴らさない。
+setopt no_beep
+setopt nolistbeep
+## 辞書順ではなく数字順に並べる。
+setopt numeric_glob_sort
+
+# 展開 =========================================================================
+## --prefix=~/localというように「=」の後でも
+## 「~」や「=コマンド」などのファイル名展開を行う。
+setopt magic_equal_subst
+
+## 拡張globを有効にする。
+## glob中で「(#...)」という書式で指定する。
+setopt extended_glob
+## globでパスを生成したときに、パスがディレクトリだったら最後に「/」をつける。
+setopt mark_dirs
+
+# その他 =======================================================================
+## jobsでプロセスIDも出力する。
+setopt long_list_jobs
+
+## 全てのユーザのログイン・ログアウトを監視する。
+watch="all"
+## ログイン時にはすぐに表示する。
+log
+
+## ^Dでログアウトしないようにする。
+# setopt ignore_eof
+
+
+# git ==========================================================================
 # Show branch name in Zsh's right prompt
 autoload -Uz VCS_INFO_get_data_git; VCS_INFO_get_data_git 2> /dev/null
  
@@ -75,6 +233,7 @@ rm -f ~/.zcompdump; compinit
 
 
 # git-flow ====================================================================
+<<<<<<< HEAD
 source ${HOME}/.zsh/git-flow-completion/git-flow-completion.zsh
 
 
@@ -85,6 +244,8 @@ setopt auto_cd
 # auto directory pushd that you can get dirs list by cd -[tab] =================
 setopt auto_pushd
 
+=======
+#source ${HOME}/.zsh/git_flow_completion.zsh
 
 # command correct edition before each completion attempt =======================
 setopt correct
@@ -96,19 +257,6 @@ setopt list_packed
 
 # no remove postfix slash of command line ======================================
 setopt noautoremoveslash
-
-
-# no beep sound when complete list displayed ===================================
-setopt nolistbeep
-
-
-# Keybind configuration ========================================================
-# emacs like keybind (e.x. Ctrl-a gets to line head and Ctrl-e gets
-#   to end) and something additions
-bindkey -e
-bindkey "^[[1~" beginning-of-line # Home gets to line head
-bindkey "^[[4~" end-of-line # End gets to line end
-bindkey "^[[3~" delete-char # Del
 
 
 # historical backward/forward search with linehead string binded to ^P/^N ======
@@ -125,36 +273,6 @@ bindkey "\\en" history-beginning-search-forward-end
 bindkey "\e[Z" reverse-menu-complete
 
 
-# Command history configuration ================================================
-HISTFILE=${HOME}/.zsh_history
-HISTSIZE=50000
-SAVEHIST=50000
-setopt share_history        # share command history data
-# ヒストリに追加されるコマンド行が古いものと同じなら古いものを削除
-setopt hist_ignore_all_dups
-# スペースで始まるコマンド行はヒストリリストから削除
-setopt hist_ignore_space
-# ヒストリを呼び出してから実行する間に一旦編集可能
-setopt hist_verify
-# 余分な空白は詰めて記録
-setopt hist_reduce_blanks  
-# 古いコマンドと同じものは無視 
-setopt hist_save_no_dups
-# historyコマンドは履歴に登録しない
-setopt hist_no_store
-# 補完時にヒストリを自動的に展開         
-setopt hist_expand
-# 履歴をインクリメンタルに追加
-setopt inc_append_history
-# インクリメンタルからの検索
-bindkey "^R" history-incremental-search-backward
-bindkey "^S" history-incremental-search-forward
-
-
-# Completion configuration =====================================================
-fpath=(${HOME}/.zsh/functions/Completion ${fpath})
-autoload -U compinit
-compinit
 
 
 # zsh editor ==================================================================
@@ -162,7 +280,7 @@ autoload zed
 
 # zaw =========================================================================
 source ${HOME}/.zsh/zaw/zaw.zsh
-bindkey '^h' zaw-history^h
+bindkey '^h' zaw-history
 
 # Prediction configuration ====================================================
 #autoload predict-on
@@ -294,5 +412,5 @@ export EDITOR=vi
 
 ## load user .zshrc configuration file =========================================
 #
-[ -f ${HOME}/.zshrc.mine ] && source ${HOME}/.zshrc.mine
+[ -f ${ZDOTDIR}/.zshrc.mine ] && source ${ZDOTDIR}/.zshrc.mine
 
