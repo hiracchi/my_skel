@@ -156,14 +156,9 @@
 ;; (set-face-background 'region "darkgreen")
 ;; color-theme (http://download.savannah.gnu.org/releases/color-theme/color-theme-6.6.0.tar.gz)
 (when (require 'color-theme nil t)
-;  (color-theme-initialize)
-;
-;  (when (require 'color-theme-solarized nil t)
-;     (color-theme-solarized-dark)
-;     )
-  (when (require 'color-theme-ir-black nil t)
-    (color-theme-ir-black)
-  )
+  (color-theme-initialize)
+  ;(color-theme-arjen)
+  (color-theme-charcoal-black)
 )
 
 ;(line-number-mode t)
@@ -284,7 +279,7 @@
 ;; anything ====================================================================
 (require 'anything-startup)
 (global-set-key (kbd "C-;") 'anything)
-(global-set-key (kbd "C-:") 'anything-for-files)
+(global-set-key (kbd "C-]") 'anything-for-files)
 (global-set-key (kbd "\C-x b") 'anything)
 
 (when (require 'anything nil t)
