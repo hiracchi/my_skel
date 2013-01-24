@@ -345,8 +345,6 @@
   (setq anything-samewindow nil)
   (push '("*anything*" :height 20) popwin:special-display-config)
   (push '(dired-mode :position top) popwin:special-display-config)
-  (push '("*Completions*" :height 0.4) popwin:special-display-config)
-  (push '("*compilation*" :height 0.4 :noselect t :stick t) popwin:special-display-config)
 )
 
 
