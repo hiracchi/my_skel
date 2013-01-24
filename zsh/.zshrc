@@ -138,7 +138,7 @@ zstyle ':completion:*:default' list-colors ""
 ## 補完候補がなければより曖昧に候補を探す。
 ### m:{a-z}={A-Z}: 小文字を大文字に変えたものでも補完する。
 ### r:|[._-]=*: 「.」「_」「-」の前にワイルドカード「*」があるものとして補完する。
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z} r:|[._-]=*'
+#zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z} r:|[._-]=*'
 
 ## 補完方法の設定。指定した順番に実行する。
 ### _oldlist 前回の補完結果を再利用する。
@@ -148,8 +148,8 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z} r:|[._-]=*'
 ### _ignored: 補完候補にださないと指定したものも補完候補とする。
 ### _approximate: 似ている補完候補も補完候補とする。
 ### _prefix: カーソル以降を無視してカーソル位置までで補完する。
-zstyle ':completion:*' completer \
-    _oldlist _complete _match _history _ignored _approximate _prefix
+#zstyle ':completion:*' completer \
+#    _oldlist _complete _match _history _ignored _approximate _prefix
 
 ## 補完候補をキャッシュする。
 zstyle ':completion:*' use-cache yes
