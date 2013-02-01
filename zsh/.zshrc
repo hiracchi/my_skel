@@ -193,6 +193,8 @@ log
 ## ^Dでログアウトしないようにする。
 # setopt ignore_eof
 
+# 名前を変更しない
+DISABLE_AUTO_TITLE=true
 
 # git ==========================================================================
 # Show branch name in Zsh's right prompt
