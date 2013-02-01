@@ -193,8 +193,18 @@ log
 ## ^Dでログアウトしないようにする。
 # setopt ignore_eof
 
+# tmux ========================================================================
 # 名前を変更しない
 DISABLE_AUTO_TITLE=true
+
+# window名をカレントディレクトリにする
+show-current-dir-as-window-name() {
+    tmux set-window-option window-status-format " #I ${PWD:t} " > /dev/null
+}
+ 
+show-current-dir-as-window-name
+autoload -U add-zsh-hook
+add-zsh-hook chpwd show-current-dir-as-window-name
 
 # git ==========================================================================
 # Show branch name in Zsh's right prompt
