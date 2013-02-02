@@ -199,7 +199,7 @@ DISABLE_AUTO_TITLE=true
 
 # window名をカレントディレクトリにする
 show-current-dir-as-window-name() {
-    tmux set-window-option window-status-format " #I ${PWD:t} " > /dev/null
+    tmux set-window-option window-status-format " #I ${PWD:t} " 2>&1 > /dev/null
 }
  
 show-current-dir-as-window-name
@@ -224,11 +224,11 @@ function rprompt-git-current-branch {
     action=`VCS_INFO_git_getaction "$gitdir"` && action="($action)"
     
     st=`git status 2> /dev/null`
-	if [[ -n `echo "$st" | grep "^nothing to"` ]]; then
+    if [[ -n `echo "$st" | grep "^nothing to"` ]]; then
         color=%F{green}
-	elif [[ -n `echo "$st" | grep "^no changes added"` ]]; then
+    elif [[ -n `echo "$st" | grep "^no changes added"` ]]; then
         color=%F{yellow}
-	elif [[ -n `echo "$st" | grep "^# Changes to be committed"` ]]; then
+    elif [[ -n `echo "$st" | grep "^# Changes to be committed"` ]]; then
         color=%B%F{red}
     else
         color=%F{red}
@@ -278,12 +278,8 @@ bindkey "^n" history-beginning-search-forward-end
 bindkey "\\ep" history-beginning-search-backward-end
 bindkey "\\en" history-beginning-search-forward-end
 
-
 # reverse menu completion binded to Shift-Tab ==================================
 bindkey "\e[Z" reverse-menu-complete
-
-
-
 
 # zsh editor ==================================================================
 autoload zed
