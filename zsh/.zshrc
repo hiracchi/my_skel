@@ -186,9 +186,9 @@ setopt mark_dirs
 setopt long_list_jobs
 
 ## 全てのユーザのログイン・ログアウトを監視する。
-watch="all"
+#watch="all"
 ## ログイン時にはすぐに表示する。
-log
+#log
 
 ## ^Dでログアウトしないようにする。
 # setopt ignore_eof
