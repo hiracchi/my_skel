@@ -5,3 +5,5 @@ git config --global user.email "hiracchi@gmail.com"
 git config --global color.ui auto
 git config --global core.pager 'less -R'
 
+git config --global --add merge.ff false
+
