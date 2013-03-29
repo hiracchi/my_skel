@@ -1,0 +1,13 @@
+
+* ZSH
+
+set .zshenv file in ${HOME}.
+The environment parameter 'ZDOTDIR' is only set in the file. 
+
+$ZDOTDIR 
+- zalias
+- zshrc.`uname`
+- zshrc.`hostname -s`
+
+
+
