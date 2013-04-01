@@ -115,7 +115,7 @@ esac
 # 補完 =========================================================================
 ## 初期化
 autoload -U compinit
-compinit
+compinit -d /tmp/$USER.zcompdump
 
 fpath=(${HOME}/.zsh/functions/Completion ${fpath})
 
@@ -199,7 +199,9 @@ DISABLE_AUTO_TITLE=true
 
 # window名をカレントディレクトリにする
 show-current-dir-as-window-name() {
-    tmux set-window-option window-status-format " #I ${PWD:t} " 2>&1 > /dev/null
+    if [ x${TMUX} != x ]; then
+        tmux set-window-option window-status-format " #I ${PWD:t} " 2>&1 > /dev/null
+    fi
 }
  
 show-current-dir-as-window-name
