@@ -198,15 +198,15 @@ setopt long_list_jobs
 DISABLE_AUTO_TITLE=true
 
 # window名をカレントディレクトリにする
-show-current-dir-as-window-name() {
-    if [ x${TMUX} != x ]; then
-        tmux set-window-option window-status-format " #I ${PWD:t} " 2>&1 > /dev/null
-    fi
-}
+#show-current-dir-as-window-name() {
+#    if [ x${TMUX} != x ]; then
+#        tmux set-window-option window-status-format " #I ${PWD:t} " 2>&1 > /dev/null
+#    fi
+#}
  
-show-current-dir-as-window-name
-autoload -U add-zsh-hook
-add-zsh-hook chpwd show-current-dir-as-window-name
+#show-current-dir-as-window-name
+#autoload -U add-zsh-hook
+#add-zsh-hook chpwd show-current-dir-as-window-name
 
 # git ==========================================================================
 # Show branch name in Zsh's right prompt
