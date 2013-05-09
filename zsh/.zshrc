@@ -26,7 +26,7 @@ setopt auto_cd
 setopt auto_pushd
 ## カレントディレクトリ中に指定されたディレクトリが見つからなかった場合に
 ## 移動先を検索するリスト。
-cdpath=(~)
+# cdpath=(~)
 ## ディレクトリが変わったらディレクトリスタックを表示。
 chpwd_functions=($chpwd_functions dirs)
 
