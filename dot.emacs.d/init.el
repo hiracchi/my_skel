@@ -167,7 +167,7 @@
 ;; font settings on mac
 ;; copied form http://d.hatena.ne.jp/setoryohei/20110117/1295336454
 (if run-cocoa
-    (let* ((size 14)
+    (let* ((size 12)
            (asciifont "Ricty") ; ASCII fonts
            (jpfont "Ricty") ; Japanese fonts
            (h (* size 10))
