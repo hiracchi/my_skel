@@ -421,6 +421,12 @@ fi
 
 export EDITOR=vi
 
+# rbenv
+if [ -d ${HOME}/.rbenv ]; then
+    export PATH=${HOME}/.rbenv/bin:${PATH}
+    eval "$(rbenv init -)"
+fi
+
 ## load user .zshrc configuration file =========================================
 #
 [ -f ${ZDOTDIR}/.zshrc.mine ] && source ${ZDOTDIR}/.zshrc.mine
