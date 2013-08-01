@@ -427,6 +427,12 @@ if [ -d ${HOME}/.rbenv ]; then
     eval "$(rbenv init -)"
 fi
 
+# growl
+growl()
+{
+    echo -e $'\e]9;'${1}'\007'; return;
+}
+
 ## load user .zshrc configuration file =========================================
 #
 [ -f ${ZDOTDIR}/.zshrc.mine ] && source ${ZDOTDIR}/.zshrc.mine
