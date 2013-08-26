@@ -148,8 +148,8 @@ zstyle ':completion:*:default' list-colors ""
 ### _ignored: 補完候補にださないと指定したものも補完候補とする。
 ### _approximate: 似ている補完候補も補完候補とする。
 ### _prefix: カーソル以降を無視してカーソル位置までで補完する。
-#zstyle ':completion:*' completer \
-#    _oldlist _complete _match _history _ignored _approximate _prefix
+zstyle ':completion:*' completer \
+    _oldlist _complete _match _history _ignored _approximate _prefix
 
 ## 補完候補をキャッシュする。
 zstyle ':completion:*' use-cache yes
@@ -184,6 +184,9 @@ setopt mark_dirs
 # その他 =======================================================================
 ## jobsでプロセスIDも出力する。
 setopt long_list_jobs
+
+# 3秒以上かかったコマンドは統計情報を表示する  =================================
+#REPORTTIME=3
 
 ## 全てのユーザのログイン・ログアウトを監視する。
 #watch="all"
@@ -376,10 +379,6 @@ fi
 export PERL_BADLANG=0
 
 
-# 3秒以上かかったコマンドは統計情報を表示する  =================================
-REPORTTIME=3
-
-
 # Alias configuration ==========================================================
 # expand aliases before completing
 setopt complete_aliases     # aliased ls needs if file/dir completions work
@@ -419,7 +418,18 @@ if [ -f "/Applications/Emacs.app/Contents/MacOS/Emacs" ]; then
     alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs -nw'
 fi
 
+# vim
 export EDITOR=vi
+
+# less
+export LESS="-R -g -q"
+
+
+# rbenv
+if [ -d ${HOME}/.rbenv ]; then
+    export PATH=${HOME}/.rbenv/bin:${PATH}
+    eval "$(rbenv init -)"
+fi
 
 # growl
 growl()

@@ -18,7 +18,7 @@ language-pack-ja \
 sudo aptitude -y install ${PACKAGES}
 
 # unset overlay scrollbar
-sudo aptitude remove overlay-scrollbar liboverlay-scrollbar-0.2-0 liboverlay-scrollbar3-0.2-0
+#sudo aptitude remove overlay-scrollbar liboverlay-scrollbar-0.2-0 liboverlay-scrollbar3-0.2-0
 
 # for latex
 #sudo jisftconfig add

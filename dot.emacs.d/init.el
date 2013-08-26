@@ -277,46 +277,46 @@
 
 
 ;; anything ====================================================================
-(require 'anything-startup)
-(global-set-key (kbd "C-;") 'anything)
-(global-set-key (kbd "C-]") 'anything-for-files)
-(global-set-key (kbd "\C-x b") 'anything)
+;(require 'anything-startup)
+;(global-set-key (kbd "C-;") 'anything)
+;(global-set-key (kbd "C-]") 'anything-for-files)
+;(global-set-key (kbd "\C-x b") 'anything)
 
-(when (require 'anything nil t)
-  (setq 
-   anything-idle-delay 0.3
-   anything-input-idle-delay 0.2
-   anything-candidate-number-limit 100
-   anything-quick-update t
-   anything-enable-shortcut 'alphabet)
+;(when (require 'anything nil t)
+;  (setq 
+;   anything-idle-delay 0.3
+;   anything-input-idle-delay 0.2
+;   anything-candidate-number-limit 100
+;   anything-quick-update t
+;   anything-enable-shortcut 'alphabet)
+;
+;  (when (require 'anything-config nil t)
+;    (setq anything-su-or-sudo "sudo"))
+;
+;  (require 'anything-match-plugin nil t)
+;
+;  ;(when (and (executable-find "cmigemo")
+;  ;	     (require 'migemo nil t))
+;  ;  (require 'anything-migemo nil t))
+;
+;  (when (require 'anything-complete nil t)
+;    (anything-lisp-complete-symbol-set-timer 150))
+;
+;  (require 'anything-show-completion nil t)
+;
+;  (when (require 'auto-install nil t)
+;    (require 'anything-auto-install nil t))
+;
+;  (when (require 'descbinds-anything nil t)
+;    (descbinds-anything-install))
+;)
 
-  (when (require 'anything-config nil t)
-    (setq anything-su-or-sudo "sudo"))
-
-  (require 'anything-match-plugin nil t)
-
-  (when (and (executable-find "cmigemo")
-	     (require 'migemo nil t))
-    (require 'anything-migemo nil t))
-
-  (when (require 'anything-complete nil t)
-    (anything-lisp-complete-symbol-set-timer 150))
-
-  (require 'anything-show-completion nil t)
-
-  (when (require 'auto-install nil t)
-    (require 'anything-auto-install nil t))
-
-  (when (require 'descbinds-anything nil t)
-    (descbinds-anything-install))
-)
-
-(require 'split-root)
-(defun anything-display-function--split-root (buf)
-  (let ((percent 40.0))
-    (set-window-buffer (split-root-window (truncate (* (frame-height) (/ percent 100.0)))) buf)))
-(setq anything-display-function 'anything-display-function--split-root)
-
+;(require 'split-root)
+;(defun anything-display-function--split-root (buf)
+;  (let ((percent 40.0))
+;    (set-window-buffer (split-root-window (truncate (* (frame-height) (/ percent 100.0)))) buf)))
+;(setq anything-display-function 'anything-display-function--split-root)
+;
 ;; auto-complete ===============================================================
 (when (require 'auto-complete-config nil t)
   (add-to-list 'ac-dictionary-directories "~/.emacs.d/elisp/ac-dict")
@@ -379,6 +379,9 @@
 ;(require 'grep-edit)
 
 ;; programing ==================================================================
+;(setq compile-command "LANG=C make -k -j 3")
+(setq compile-command "LANG=C make")
+
 ;; file extention
 (setq auto-mode-alist
       (append '(("\\.tpl$" . html-mode)
@@ -406,8 +409,7 @@
              (setq c-toggle-electric-state t)
              (setq c-toggle-hungry-state t)
              (setq indent-tabs-mode nil)
-             (setq next-line-add-newlines nil)
-             (setq compile-command "LANG=C make -k -j 3")
+             (setq next-line-add-newlines nil)            
              (which-function-mode 1)
              ))
 
@@ -424,7 +426,6 @@
              (setq c-toggle-hungry-state t)
              (setq indent-tabs-mode nil)
              (setq next-line-add-newlines nil)
-             (setq compile-command "LANG=C make -k -j 3")
              (which-function-mode 1)
              ))
 
