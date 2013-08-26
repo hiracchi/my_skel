@@ -269,11 +269,11 @@
   )
 
 ;;(install-elisp "http://www.emacswiki.org/emacs/download/redBo+.el")
-(when (require 'redo+ nil t)
-  ;; C-' にリドゥを割り当てる
-  (global-set-key (kbd "C-'") 'redo)
-  ;; (global-set-key (kbd "C-.") 'redo)
-  )
+;(when (require 'redo+ nil t)
+;  ;; C-' にリドゥを割り当てる
+;  (global-set-key (kbd "C-'") 'redo)
+;  ;; (global-set-key (kbd "C-.") 'redo)
+;  )
 
 
 ;; anything ====================================================================
