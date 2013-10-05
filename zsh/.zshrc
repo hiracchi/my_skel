@@ -181,6 +181,18 @@ setopt extended_glob
 ## globでパスを生成したときに、パスがディレクトリだったら最後に「/」をつける。
 setopt mark_dirs
 
+# PATH =========================================================================
+## 重複パスを登録しない
+typeset -U path cdpath fpath manpath
+
+## sudo用のpathを設定
+typeset -xT SUDO_PATH sudo_path
+typeset -U sudo_path
+sudo_path=({/usr/local,/usr,}/sbin(N-/))
+
+## pathを設定
+path=(~/bin(N-/) /usr/local/bin(N-/) ${path})
+
 # その他 =======================================================================
 ## jobsでプロセスIDも出力する。
 setopt long_list_jobs
@@ -424,6 +436,11 @@ export EDITOR=vi
 # less
 export LESS="-R -g -q"
 
+# pyenv for mac
+if which pyenv > /dev/null; then
+    eval "$(pyenv init -)";
+fi
+export PYENV_ROOT=/usr/local/opt/pyenv
 
 # rbenv
 if [ -d ${HOME}/.rbenv ]; then
@@ -432,10 +449,7 @@ if [ -d ${HOME}/.rbenv ]; then
 fi
 
 # growl
-growl()
-{
-    echo -e $'\e]9;'${1}'\007'; return;
-}
+source ${ZDOTDIR}/growl.zsh
 
 ## load user .zshrc configuration file =========================================
 #
